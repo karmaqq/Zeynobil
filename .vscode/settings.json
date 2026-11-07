@@ -1,0 +1,10 @@
+{
+  "liveServer.settings.root": "/",
+  "liveServer.settings.host": "127.0.0.1",
+  "livePreview.defaultPreviewPath": "/index.html",
+  "livePreview.autoRefreshPreview": "On Changes to Saved Files",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.log": true
+  }
+}
