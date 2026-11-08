@@ -54,9 +54,30 @@
         img.style.visibility = "hidden";
       });
 
-      img.loading = "lazy";
+      /* Yükleme önceliği HTML'deki loading ve fetchpriority ile belirlenir */
       img.decoding = "async";
-      img.src = dosya;
+      if (img.getAttribute("src") !== dosya) img.src = dosya;
+    });
+  }
+
+  /* ─────────────────── onbellekKur ─────────────────── */
+  /* Görseller bir kez indirildikten sonra kalıcı önbellekten anında gelir.      */
+  /* Service worker yalnızca http(s) üzerinde çalışır; dosya:// ile sessizce     */
+  /* devre dışı kalır.                                                           */
+  function onbellekKur() {
+    if ("storage" in navigator && typeof navigator.storage.persist === "function") {
+      navigator.storage.persisted().then(function (kalici) {
+        if (!kalici) return navigator.storage.persist();
+      }).catch(function () {});
+    }
+
+    if (!("serviceWorker" in navigator)) return;
+    if (location.protocol !== "http:" && location.protocol !== "https:") return;
+
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function (hata) {
+        console.warn("Görsel önbelleği kurulamadı:", hata);
+      });
     });
   }
 
@@ -161,28 +182,33 @@
     });
   }
 
-  /* ─────────────────── Sonsuz Fotoğraf Şeridi ─────────────────── */
+  /* ─────────────────── Galeri Şeridi ─────────────────── */
 
-  /* ─────────────────── sonsuzSlideriKur ─────────────────── */
-  function sonsuzSlideriKur(kapId) {
+  /* ─────────────────── galeriSlideriKur ─────────────────── */
+  /* Tüm galeri şeritleri aynı dili paylaşır: kareler üç set hâlinde         */
+  /* çoğaltılır, ortadaki set gerçektir ve aktif kare ortada tutulur.        */
+  function galeriSlideriKur(kapId) {
     const kap = document.getElementById(kapId);
     if (!kap) return;
     const ray = kap.querySelector(".galeri-ray");
     if (!ray) return;
-    const asil = Array.prototype.slice.call(ray.querySelectorAll(".galeri-kare"));
-    if (asil.length < 2) return;
-    const adet = asil.length;
-    const sayi = kap.querySelector(".galeri-sayi");
-    const kareler = [];
-    let aktif = adet;
 
-    /* ─────────────────── kur ─────────────────── */
+    const ozgunKareler = Array.prototype.slice.call(ray.querySelectorAll(".galeri-kare"));
+    const kareSayisi = ozgunKareler.length;
+    if (kareSayisi < 2) return;
+
+    const sayi = kap.querySelector(".galeri-sayi");
+    const setSayisi = 3;
+    const ortaSet = 1;
+    const kareler = [];
+    let aktif = ortaSet * kareSayisi;
+
     /* Kareler üç kez çoğaltılır: ortadaki set gerçek, yanlardakiler sonsuzluk hissi için. */
     ray.textContent = "";
-    for (let set = 0; set < 3; set++) {
-      asil.forEach(function (kare) {
+    for (let set = 0; set < setSayisi; set++) {
+      ozgunKareler.forEach(function (kare) {
         const kopya = kare.cloneNode(true);
-        if (set !== 1) kopya.setAttribute("aria-hidden", "true");
+        if (set !== ortaSet) kopya.setAttribute("aria-hidden", "true");
         ray.appendChild(kopya);
         kareler.push(kopya);
       });
@@ -196,6 +222,8 @@
 
       const kare = kareler[aktif];
       if (!kare) return;
+
+      /* Aktif kare, şeridin tam ortasına hizalanır */
       const kaydir = kap.clientWidth / 2 - (kare.offsetLeft + kare.offsetWidth / 2);
 
       if (aninda) {
@@ -207,19 +235,22 @@
         ray.style.transform = "translateX(" + kaydir + "px)";
       }
 
-      if (sayi) sayi.textContent = ((aktif % adet) + 1) + " / " + adet;
+      if (sayi) sayi.textContent = ((aktif % kareSayisi) + 1) + " / " + kareSayisi;
     }
 
     /* ─────────────────── git ─────────────────── */
+    /* Sınır aşılırsa görünmez geçişle orta sete dönülür, sonra tek adım atılır. */
     function git(yon) {
       const hedef = aktif + yon;
-      if (hedef >= adet * 2 || hedef < adet) {
-        aktif += hedef >= adet * 2 ? -adet : adet;
+
+      if (hedef >= kareSayisi * 2 || hedef < kareSayisi) {
+        aktif += hedef >= kareSayisi * 2 ? -kareSayisi : kareSayisi;
         diz(true);
         aktif += yon;
         diz(false);
         return;
       }
+
       aktif = hedef;
       diz(false);
     }
@@ -234,8 +265,8 @@
     /* Aktif kare orta setin dışına çıkarsa aynı fotoğrafın orta setteki        */
     /* kopyasına geçer; ekrandaki konum değişmediği için göze görünmez.         */
     function dengele() {
-      if (aktif >= adet && aktif < adet * 2) return;
-      aktif = ((aktif % adet) + adet) % adet + adet;
+      if (aktif >= kareSayisi && aktif < kareSayisi * 2) return;
+      aktif = ((aktif % kareSayisi) + kareSayisi) % kareSayisi + kareSayisi;
       diz(true);
     }
 
@@ -502,13 +533,14 @@
   /* Sıra önemli: şeritler önce kurulur ki çoğaltılan karelere de görsel yolu ve  */
   /* hata dinleyicisi atansın; ışık kutusu en son, bütün kareler hazır olunca.    */
   document.addEventListener("DOMContentLoaded", function () {
-    sonsuzSlideriKur("galeri-slider");
-    sonsuzSlideriKur("nostalji-slider");
+    galeriSlideriKur("galeri-slider");
+    galeriSlideriKur("nostalji-slider");
     fotolariTara();
     isikKutusuKur();
     kivilcimIzi();
     tiklamaKalbiKur();
     sonGuncellemeYaz();
     muzikOynaticiKur();
+    onbellekKur();
   });
 })();

@@ -11,6 +11,10 @@
 <meta name="theme-color" content="#10160f">
 <title>Zeynobik'in Köşesi</title>
 <link rel="icon" href="img/arayuz/favicon.svg">
+<link rel="preload" as="image" href="img/arkaplanlar/banner-ust.jpg">
+<link rel="preload" as="image" href="img/arayuz/witch.gif">
+<link rel="preload" as="image" href="img/fotograflar/avatar.jpeg">
+
 <link rel="stylesheet" href="stil.css">
 </head>
 <body id="top">
@@ -26,7 +30,7 @@
 
   <div class="serit">
     <marquee scrollamount="3">
-      <img class="witchrun" src="img/arayuz/witch.gif" alt="witch animasyonu" width="36" height="36">
+      <img class="witchrun" src="img/arayuz/witch.gif" alt="" fetchpriority="high" width="36" height="36">
       <span class="serit-yazi">Merhaba!</span>
     </marquee>
   </div>
@@ -37,7 +41,7 @@
 <!--                                  KENAR ÇUBUĞU                               -->
 <!-- ═══════════════════════════════════════════════════════════════════════════ -->
     <aside class="kenar">
-      <div class="kutu menu-kutu">
+      <div class="kutu">
         <div class="kutu-baslik">menü</div>
         <nav class="menu" aria-label="Bölümler">
           <a href="#hosgeldin">hoş geldin</a>
@@ -76,7 +80,7 @@
               let's get this party started 🎉
             </p>
 
-            <img class="hosgeldin-gif" src="img/fotograflar/naruto.gif" alt="Naruto animasyonu" width="144" height="144">
+            <img class="hosgeldin-gif" src="img/fotograflar/naruto.gif" alt="" loading="eager" width="144" height="144">
           </div>
         </div>
       </section>
@@ -94,7 +98,7 @@
           <div class="kimlik-satir">
             <div class="kimlik-kart">
               <div class="kutu-baslik">bu ben değilim</div>
-              <img class="avatar" data-foto="fotograflar/avatar.jpeg" data-olcu="240×340" alt="Esad Şimşek" width="240" height="340">
+              <img class="avatar" data-foto="fotograflar/avatar.jpeg" loading="eager" fetchpriority="high" data-olcu="240×340" src="img/fotograflar/avatar.jpeg" alt="" width="240" height="340">
               <p class="mini"><strong>Zeynep Elif Yağmur</strong><br>26 · Kayseri</p>
             </div>
             <div class="kimlik-metin">
@@ -143,16 +147,16 @@
           <div class="galeri-slider" id="galeri-slider">
             <div class="galeri-ray">
               <figure class="galeri-kare">
-                <img data-foto="fotograflar/galeri-1.png" data-olcu="690×920" alt="fotoğraf">
+                <img data-foto="fotograflar/galeri-1.png" loading="lazy" data-olcu="690×920" src="img/fotograflar/galeri-1.png" alt="">
               </figure>
               <figure class="galeri-kare">
-                <img data-foto="fotograflar/galeri-2.png" data-olcu="690×920" alt="fotoğraf">
+                <img data-foto="fotograflar/galeri-2.png" loading="lazy" data-olcu="690×920" src="img/fotograflar/galeri-2.png" alt="">
               </figure>
               <figure class="galeri-kare">
-                <img data-foto="fotograflar/galeri-3.png" data-olcu="690×920" alt="fotoğraf">
+                <img data-foto="fotograflar/galeri-3.png" loading="lazy" data-olcu="690×920" src="img/fotograflar/galeri-3.png" alt="">
               </figure>
               <figure class="galeri-kare">
-                <img data-foto="fotograflar/galeri-4.png" data-olcu="690×920" alt="fotoğraf">
+                <img data-foto="fotograflar/galeri-4.png" loading="lazy" data-olcu="690×920" src="img/fotograflar/galeri-4.png" alt="">
               </figure>
             </div>
             <div class="galeri-kontroller">
@@ -197,7 +201,7 @@
           </div>
 
           <figure class="foto">
-            <img data-foto="fotograflar/kediler.webp" data-olcu="600×340" alt="kediler">
+            <img data-foto="fotograflar/kediler.webp" loading="lazy" data-olcu="600×340" src="img/fotograflar/kediler.webp" alt="">
             <figcaption>Kedilerim</figcaption>
           </figure>
         </div>
@@ -229,7 +233,7 @@
 
           <div class="muzik-alan">
             <figure class="muzik-kapak">
-              <img data-muzik-kapak src="muzik/kapaklar/the-abyss.png" data-kapak="muzik/kapaklar/the-abyss.png" alt="The Abyss kapağı" width="180" height="180">
+              <img data-muzik-kapak src="muzik/kapaklar/the-abyss.png" data-kapak="muzik/kapaklar/the-abyss.png" loading="lazy" alt="" width="180" height="180">
               <span class="muzik-kapak-bos" aria-hidden="true" hidden>♪</span>
               <figcaption>şu an çalan</figcaption>
             </figure>
@@ -306,11 +310,11 @@
 
           <div class="foto-satir">
             <figure class="foto">
-              <img data-foto="kapaklar/film-afis-1.jpg" data-olcu="600×340" alt="film afişi">
+              <img data-foto="kapaklar/film-afis-1.jpg" loading="lazy" data-olcu="600×340" src="img/kapaklar/film-afis-1.jpg" alt="">
               <figcaption>Charlie'nin Çikolata Fabrikası</figcaption>
             </figure>
             <figure class="foto">
-              <img data-foto="kapaklar/film-afis-2.jpeg" data-olcu="600×395" alt="film afişi">
+              <img data-foto="kapaklar/film-afis-2.jpeg" loading="lazy" data-olcu="600×395" src="img/kapaklar/film-afis-2.jpeg" alt="">
               <figcaption>Sense8</figcaption>
             </figure>
             <div class="foto-yan-metin">
@@ -334,7 +338,7 @@
 
           <div class="foto-satir">
             <figure class="foto">
-              <img data-foto="kapaklar/dizi-kapagi.jpg" data-olcu="200×250" alt="dizi kapağı">
+              <img data-foto="kapaklar/dizi-kapagi.jpg" loading="lazy" data-olcu="200×250" src="img/kapaklar/dizi-kapagi.jpg" alt="">
               <figcaption>Team Edward ve Jacob aynı anda</figcaption>
             </figure>
             <div class="foto-yan-metin">
@@ -486,19 +490,19 @@
           <div class="galeri-slider nostalji-slider" id="nostalji-slider">
             <div class="galeri-ray">
               <figure class="galeri-kare">
-                <img data-foto="fotograflar/nostalji-1.jpeg" data-olcu="600×600" alt="fotoğraf">
+                <img data-foto="fotograflar/nostalji-1.jpeg" loading="lazy" data-olcu="412×412" src="img/fotograflar/nostalji-1.jpeg" alt="">
               </figure>
               <figure class="galeri-kare">
-                <img data-foto="fotograflar/nostalji-2.png" data-olcu="600×600" alt="fotoğraf">
+                <img data-foto="fotograflar/nostalji-2.png" loading="lazy" data-olcu="1000×774" src="img/fotograflar/nostalji-2.png" alt="">
               </figure>
               <figure class="galeri-kare">
-                <img data-foto="fotograflar/nostalji-3.png" data-olcu="600×600" alt="fotoğraf">
+                <img data-foto="fotograflar/nostalji-3.png" loading="lazy" data-olcu="720×830" src="img/fotograflar/nostalji-3.png" alt="">
               </figure>
               <figure class="galeri-kare">
-                <img data-foto="fotograflar/nostalji-4.png" data-olcu="600×600" alt="fotoğraf">
+                <img data-foto="fotograflar/nostalji-4.png" loading="lazy" data-olcu="1080×1920" src="img/fotograflar/nostalji-4.png" alt="">
               </figure>
               <figure class="galeri-kare">
-                <img data-foto="fotograflar/nostalji-5.png" data-olcu="600×600" alt="fotoğraf">
+                <img data-foto="fotograflar/nostalji-5.png" loading="lazy" data-olcu="612×1088" src="img/fotograflar/nostalji-5.png" alt="">
               </figure>
             </div>
             <div class="galeri-kontroller">

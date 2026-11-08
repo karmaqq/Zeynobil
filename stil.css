@@ -243,10 +243,11 @@ a:visited {
   align-items: stretch;
 }
 
+/* Sağdaki 3px çift çizgi de boşluğa sayılır; kutu dört yönde eşit içeride kalır */
 .kenar {
   width: var(--kenar);
   flex: 0 0 var(--kenar);
-  padding: 8px;
+  padding: 8px 5px 8px 8px;
   border-right: 3px double var(--cerceve);
   outline: 2px dashed var(--renk-outline);
   outline-offset: -5px;
@@ -283,15 +284,6 @@ a:visited {
   background-color: var(--renk-yuzey-baslik);
   background-image: linear-gradient(var(--renk-serit-katman), var(--renk-serit-katman));
   border-bottom: 2px solid var(--cerceve);
-}
-
-/* Masaüstünde menü sayfayla birlikte kayar; kısa ekranda kendi içinde kaydırılır */
-.menu-kutu {
-  position: sticky;
-  top: 10px;
-  max-height: calc(100vh - 20px);
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 .menu {
@@ -767,20 +759,23 @@ a:visited {
 
 .galeri-slider {
   --galeri-genislik: 280px;
+  --galeri-bosluk: 14px;
+  --galeri-oran: 3 / 4;
   position: relative;
   margin: 10px 0 4px;
   overflow: hidden;
   overflow: clip;
 }
 
-.galeri-slider.nostalji-slider {
-  --galeri-genislik: 100%;
+/* Nostalji şeridi: tek fark kare oran; tüm slider dili ortak kalır */
+.nostalji-slider {
+  --galeri-oran: 1 / 1;
 }
 
 .galeri-ray {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: var(--galeri-bosluk);
   transition: transform 0.4s ease;
   will-change: transform;
 }
@@ -816,30 +811,13 @@ a:visited {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: var(--galeri-oran);
   object-fit: cover;
   border: 2px ridge var(--cerceve);
   background: var(--renk-resim-yedek);
 }
 
-/* Nostalji şeridi: tek kare, kare oranlı, kenarlarda komşu kare yok */
-.nostalji-slider .galeri-ray {
-  gap: 0;
-}
-
-.nostalji-slider .galeri-kare,
-.nostalji-slider .galeri-kare.aktif,
-.nostalji-slider .galeri-kare:hover,
-.nostalji-slider .galeri-kare.aktif:hover {
-  flex: 0 0 100%;
-  width: 100%;
-  opacity: 1;
-  transform: none;
-}
-
-.nostalji-slider .galeri-kare img {
-  aspect-ratio: 1 / 1;
-}
+/* ─────────────────── Kontroller ─────────────────── */
 
 .galeri-kontroller {
   display: flex;
@@ -1183,21 +1161,17 @@ body.isik-acik {
     flex-direction: column;
   }
 
+  /* Mobilde çizgi alta geçtiği için boşluk da altta dengelenir */
   .kenar {
     width: auto;
     flex: 0 0 auto;
+    padding: 8px 8px 5px;
     border-right: 0;
     border-bottom: 3px double var(--cerceve);
   }
 
   /* Menü alt alta dizilmek yerine eşit sütunlu bir ızgaraya döner; düğmeler       */
   /* ekran genişliği değiştikçe farklı boyutlara kaçıp dengesini bozmaz.           */
-  .menu-kutu {
-    position: static;
-    max-height: none;
-    overflow: visible;
-  }
-
   .menu {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1296,10 +1270,7 @@ body.isik-acik {
 
   .galeri-slider {
     --galeri-genislik: min(210px, 58vw);
-  }
-
-  .galeri-ray {
-    gap: 10px;
+    --galeri-bosluk: 10px;
   }
 
   /* Etiket ve oyun adı yan yana kalır; yalnızca sütun daralır */
